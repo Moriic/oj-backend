@@ -11,10 +11,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.cwc</groupId>
-    <artifactId>springbootInit</artifactId>
+    <groupId>com.oj</groupId>
+    <artifactId>oj</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>springbootInit</name>
+    <name>oj</name>
 
     <properties>
         <java.version>1.8</java.version>
