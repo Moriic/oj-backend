@@ -22,7 +22,7 @@ spring:
 # mybatis-plus 配置
 mybatis-plus:
   configuration:
-    map-underscore-to-camel-case: false
+    map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
@@ -43,5 +43,3 @@ init:
 upload:
   path: src/main/resources/upload/
   url: http://localhost:8080/upload/
-
-
