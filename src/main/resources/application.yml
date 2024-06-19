@@ -7,11 +7,15 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 # mysql连接数据库
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/oral
+    url: jdbc:mysql://localhost:3306/oj?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: 123456
 
@@ -34,3 +38,10 @@ init:
     user-ttl: 7200000
     # 设置前端传递过来的令牌名称
     user-token-name: authentication
+
+# 文件上传路径
+upload:
+  path: src/main/resources/upload/
+  url: http://localhost:8080/upload/
+
+

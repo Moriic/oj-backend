@@ -40,6 +40,11 @@ public class WebMVCConfig  extends WebMvcConfigurationSupport {
         /** 公共部分内容 */
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
+
+
+        registry.addResourceHandler("/upload/**")
+                .addResourceLocations("file:"+System.getProperty("user.dir") + "/src/main/resources/upload/");
+
     }
 
 }
