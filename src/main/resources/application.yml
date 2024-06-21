@@ -42,4 +42,4 @@ init:
 # 文件上传路径
 upload:
   path: src/main/resources/upload/
-  url: http://localhost:8080/upload/
+  url: http://localhost:8100/upload/
