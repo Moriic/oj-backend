@@ -1,9 +1,14 @@
 package com.oj.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.oj.common.BaseResponse;
 import com.oj.common.ResultUtils;
+import com.oj.model.dto.ExerciseSubmitDTO;
 import com.oj.model.entity.Exercise;
+import com.oj.model.entity.ExerciseFinish;
 import com.oj.service.ExerciseService;
+import com.oj.utils.BaseContext;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -100,5 +105,36 @@ public class ExerciseController {
         // 返回文件访问路径
         String fileUrl = uploadUrl + newFilename;
         return ResultUtils.success(fileUrl);
+    }
+
+    //查看发布的实验
+    @GetMapping("/list_published")
+    public BaseResponse<List<Exercise>> getPublishedExerciseList() {
+        QueryWrapper<Exercise> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("state",1);
+        return ResultUtils.success(exerciseService.list(queryWrapper));
+    }
+
+    //查看已提交的实验
+    @GetMapping("/list_submitted")
+    public BaseResponse<List<Exercise>> getSubmittedExerciseList() {
+        return ResultUtils.success(exerciseService.getSubmittedExerciseList());
+    }
+
+    //查看未提交的实验
+    @GetMapping("/list_no_submitted")
+    public BaseResponse<List<Exercise>> getNoSubmittedExerciseList() {
+        return ResultUtils.success(exerciseService.getNoSubmittedExerciseList());
+    }
+
+    //查看某学生已提交的实验
+    @GetMapping("/list_submitted_by_id")
+    public BaseResponse<List<Exercise>> getSubmittedExerciseListByStuId(Long stuId) {
+        return ResultUtils.success(exerciseService.getSubmittedExerciseList(stuId));
+    }
+    //查看某学生未提交的实验
+    @GetMapping("/list_not_submitted_by_id")
+    public BaseResponse<List<Exercise>> getNoSubmittedExerciseListByStuId(Long stuId) {
+        return ResultUtils.success(exerciseService.getNoSubmittedExerciseList(stuId));
     }
 }

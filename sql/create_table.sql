@@ -226,3 +226,33 @@ VALUES (0, '以下哪种方法可以用于选择 HTML 元素？', '[
          "this 是一个指向当前执行上下文的对象的引用。"
        ]', 1);
 
+--
+-- Table structure for table `exercise_finish`
+--
+
+DROP TABLE IF EXISTS `exercise_finish`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `exercise_finish` (
+                                   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+                                   `exercise_id` bigint(20) NOT NULL,
+                                   `user_id` bigint(20) NOT NULL,
+                                   `score` int(11) DEFAULT NULL,
+                                   `answer` longtext NOT NULL COMMENT '提交的答案',
+                                   `result` int(11) DEFAULT NULL COMMENT '评语',
+                                   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                   PRIMARY KEY (`id`),
+                                   KEY `exercise_id` (`exercise_id`),
+                                   KEY `user_id` (`user_id`),
+                                   CONSTRAINT `exercise_finish_ibfk_1` FOREIGN KEY (`exercise_id`) REFERENCES `exercise` (`id`),
+                                   CONSTRAINT `exercise_finish_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='实验完成表';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `exercise_finish`
+--
+
+INSERT INTO `exercise_finish` (`id`, `exercise_id`, `user_id`, `score`, `answer`, `result`, `create_time`, `update_time`) VALUES (6,1,1,NULL,'<p>是</p>',NULL,'2024-06-20 16:16:16','2024-06-20 16:16:16');
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
