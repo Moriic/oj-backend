@@ -23,5 +23,6 @@
         select *
         from exercise
         where id not in (select distinct exercise_id from exercise_finish where user_id = #{id})
+        and state = 1
     </select>
 </mapper>
