@@ -88,4 +88,9 @@ public class UserLoginVO implements Serializable {
      * 更新时间
      */
     private Date updateTime;
+
+    /**
+     * 标记是否被禁用
+     */
+    private Integer blocked;
 }

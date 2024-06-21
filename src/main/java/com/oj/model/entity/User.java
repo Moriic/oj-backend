@@ -37,65 +37,18 @@ public class User implements Serializable {
     private String name;
 
     /**
-     * 年龄
-     */
-    private Integer age;
-
-    /**
-     * 出生日期
-     */
-    private Date birthday;
-
-    /**
-     * 性别
-     */
-    private String gender;
-
-    /**
-     * 联系方式
-     */
-    private String phone;
-
-    /**
-     * 科室
-     */
-    private String department;
-
-    /**
-     * 职称
-     */
-    private String job;
-
-    /**
      * 头像
      */
     private String avatar;
 
     /**
-     * 照片
-     */
-    private String photo;
-
-    /**
-     * 简介
-     */
-    private String profile;
-
-    /**
      * 用户角色：doctor/admin
      */
     private String role;
-    
-    /**
-     * 创建时间
-     */
-    private Date createTime;
 
+    private String signature;
 
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
+    private Integer blocked;
 
     /**
      * 是否删除
