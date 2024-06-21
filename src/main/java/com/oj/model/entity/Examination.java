@@ -52,7 +52,7 @@ public class Examination implements Serializable {
     /**
      * True老师/False学生
      */
-    private Boolean type;
+    private Integer type;
 
     /**
      * 创建试卷的用户 ID
@@ -70,6 +70,11 @@ public class Examination implements Serializable {
      * 更新时间
      */
     private LocalDateTime updateTime;
+
+    /**
+     * 是否删除
+     */
+    private Integer isDelete;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

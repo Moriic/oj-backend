@@ -39,7 +39,6 @@ public class ExaminationController {
     @PostMapping("/add")
     public BaseResponse<Boolean> addExamination(@RequestBody Examination examination) {
         examination.setUserId(BaseContext.getCurrentId());
-        System.out.println(examination);
         examinationService.save(examination);
         return ResultUtils.success(true);
     }
@@ -61,7 +60,7 @@ public class ExaminationController {
 
     @GetMapping("/page")
     public BaseResponse<IPage<Examination>> getExaminationsPage(@RequestParam(defaultValue = "1") int page,
-                                                             @RequestParam(defaultValue = "10") int pageSize) {
+                                                                @RequestParam(defaultValue = "10") int pageSize) {
         Long userId = BaseContext.getCurrentId();
         QueryWrapper<Examination> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("userId", userId);
@@ -77,7 +76,7 @@ public class ExaminationController {
         queryWrapper.lambda()
                 .eq(Examination::getUserId, BaseContext.getCurrentId()) // userId = currentUserId
                 .or()
-                .eq(Examination::getType, 2)                    // type = 1
+                .eq(Examination::getType, 2)                    // type = 2
                 .orderByDesc(Examination::getCreateTime);
         List<Examination> list = examinationService.list(queryWrapper);
 
@@ -126,6 +125,41 @@ public class ExaminationController {
         QueryWrapper<Question> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("id", ids);
         return questionService.list(queryWrapper);
+    }
+
+    @GetMapping("/list/teacher")
+    public BaseResponse<List<ExaminationVO>> getExamListTeacher() {
+        QueryWrapper<Examination> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda()
+                .eq(Examination::getUserId, BaseContext.getCurrentId()) // userId = currentUserId
+                .orderByDesc(Examination::getCreateTime);
+
+        List<Examination> list = examinationService.list(queryWrapper);
+        List<ExaminationVO> resultList = new ArrayList<>();
+        for (Examination examination : list) {
+            ExaminationVO examinationVO = new ExaminationVO();
+            BeanUtils.copyProperties(examination, examinationVO);
+            List<Question> questionByIds = getQuestionByIds(examination.getQuestions());
+            examinationVO.setQuestions(questionByIds);
+            examinationVO.setQuestionNum(questionByIds.size());
+            examinationVO.setExamScore(questionByIds.stream()
+                    .mapToInt(Question::getScore)
+                    .sum());
+            resultList.add(examinationVO);
+        }
+        return ResultUtils.success(resultList);
+    }
+
+    @PostMapping("/publish/{id}")
+    public BaseResponse<Boolean> publisExam(@PathVariable long id) {
+        Examination examination = examinationService.getById(id);
+        if (examination.getType() == 1) {
+            examination.setType(2);
+        } else {
+            examination.setType(1);
+        }
+        examinationService.updateById(examination);
+        return ResultUtils.success(true);
     }
 
 }

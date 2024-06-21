@@ -52,7 +52,9 @@ public class QuestionController {
     @GetMapping("/list")
     public BaseResponse<List<Question>> getQuestionList() {
         QueryWrapper<Question> queryWrapper = new QueryWrapper<>();
-        queryWrapper.lambda().orderByDesc(Question::getCreateTime);
+        queryWrapper.lambda()
+                .eq(Question::getUserId, BaseContext.getCurrentId())
+                .orderByDesc(Question::getCreateTime);
         return ResultUtils.success(questionService.list(queryWrapper));
     }
 
@@ -67,7 +69,4 @@ public class QuestionController {
         questionService.removeById(id);
         return ResultUtils.success(true);
     }
-
-
-
 }

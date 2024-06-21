@@ -94,7 +94,6 @@ public class ExamFinishController {
 
     @GetMapping("/list")
     public BaseResponse<List<ExamFinishVO>> getExamFinishList() {
-
         QueryWrapper<ExamFinish> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda().eq(ExamFinish::getUserId, BaseContext.getCurrentId())
                 .orderByDesc(ExamFinish::getCreateTime);
@@ -109,6 +108,7 @@ public class ExamFinishController {
             ExaminationVO examinationVO = new ExaminationVO();
             Long examinationId = examFinish.getExaminationId();
             Examination examination = examinationService.getById(examinationId);
+            if (examination == null) continue;
             BeanUtils.copyProperties(examination, examinationVO);
             List<Question> questionByIds = getQuestionByIds(examination.getQuestions());
             examinationVO.setQuestions(questionByIds);
