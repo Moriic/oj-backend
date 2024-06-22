@@ -7,6 +7,7 @@ import com.oj.common.ResultUtils;
 import com.oj.model.dto.ExerciseSubmitDTO;
 import com.oj.model.entity.Exercise;
 import com.oj.model.entity.ExerciseFinish;
+import com.oj.model.vo.SearchVO;
 import com.oj.service.ExerciseService;
 import com.oj.utils.BaseContext;
 import org.springframework.beans.factory.annotation.Value;
@@ -102,6 +103,41 @@ public class ExerciseController {
         }
         // 保存文件
         file.transferTo(destFile);
+        // 返回文件访问路径
+        String fileUrl = uploadUrl + newFilename;
+        return ResultUtils.success(fileUrl);
+    }
+
+    @PostMapping("/uploadVideo")
+    public BaseResponse<String> uploadVideo(@RequestParam("file") MultipartFile file) throws IOException {
+        // 获取上传视频的全名
+        String filename = file.getOriginalFilename();
+        if (filename == null || filename.isEmpty()) {
+            return ResultUtils.error(400, "文件名无效");
+        }
+        // 截取视频后缀名
+        String fileExtension = filename.substring(filename.lastIndexOf("."));
+        // 你可以在这里添加对文件类型的检查
+        if (!fileExtension.matches("\\.(mp4|avi|mkv|mov|flv|wmv)$")) {
+            return ResultUtils.error(400, "无效的视频格式");
+        }
+        // 使用UUID拼接文件后缀名 防止文件名重复 导致被覆盖
+        String newFilename = UUID.randomUUID().toString().replace("-", "") + fileExtension;
+        // 创建文件对象
+        File destFile = new File(System.getProperty("user.dir") + "/" + uploadPath + newFilename);
+
+        // 判断文件的父文件夹是否存在 如果不存在 则创建
+        if (!destFile.getParentFile().exists()) {
+            if (!destFile.getParentFile().mkdirs()) {
+                return ResultUtils.error(500, "创建目录失败");
+            }
+        }
+        // 保存文件
+        try {
+            file.transferTo(destFile);
+        } catch (IOException e) {
+            return ResultUtils.error(500, "文件上传失败: " + e.getMessage());
+        }
         // 返回文件访问路径
         String fileUrl = uploadUrl + newFilename;
         return ResultUtils.success(fileUrl);
