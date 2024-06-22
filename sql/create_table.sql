@@ -48,8 +48,7 @@ CREATE TABLE question
     user_id     bigint                             NOT NULL COMMENT '用户id',
     score       INT      DEFAULT 5                 NOT NULL,
     create_time datetime default CURRENT_TIMESTAMP not null comment '创建时间',
-    update_time datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
-    foreign key (user_id) references user (id)
+    update_time datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间'
 ) comment '题库表';
 
 
@@ -66,7 +65,7 @@ CREATE TABLE examination
     user_id            BIGINT       NOT NULL COMMENT '创建试卷的用户 ID',
     create_time        datetime              default CURRENT_TIMESTAMP not null comment '创建时间',
     update_time        datetime              default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
-    FOREIGN KEY (user_id) REFERENCES user (id)
+    is_delete   BOOLEAN  DEFAULT 0
 ) COMMENT '试卷表';
 
 CREATE TABLE exam_finish
@@ -78,9 +77,7 @@ CREATE TABLE exam_finish
     answer         JSON                               NOT NULL,
     result         JSON                               NOT NULL,
     create_time    datetime default CURRENT_TIMESTAMP not null comment '创建时间',
-    update_time    datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
-    foreign key (examination_id) references examination (id),
-    foreign key (user_id) references user (id)
+    update_time    datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间'
 ) COMMENT '完成表';
 
 
@@ -96,9 +93,9 @@ CREATE TABLE `exercise_finish`
     `update_time` datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     PRIMARY KEY (`id`),
     KEY `exercise_id` (`exercise_id`),
-    KEY `user_id` (`user_id`),
-    CONSTRAINT `exercise_finish_ibfk_1` FOREIGN KEY (`exercise_id`) REFERENCES `exercise` (`id`),
-    CONSTRAINT `exercise_finish_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+    KEY `user_id` (`user_id`)
+#     CONSTRAINT `exercise_finish_ibfk_1` FOREIGN KEY (`exercise_id`) REFERENCES `exercise` (`id`),
+#     CONSTRAINT `exercise_finish_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 9
   DEFAULT CHARSET = utf8 COMMENT ='实验完成表';
@@ -265,19 +262,60 @@ VALUES (0, '以下哪种方法可以用于选择 HTML 元素？', '[
          "this 是一个指向当前执行上下文的对象的引用。"
        ]', 1);
 
-INSERT INTO examination (id, title, questions, randomize_options, allow_view_answers, allow_backward, time_limit, type, user_id, create_time, update_time) VALUES (1, '测试随机生成', '[2, 1, 3, 4, 5, 7, 12, 6, 9, 8]', 1, 1, 1, 120, 0, 1, '2024-06-21 12:42:59', '2024-06-21 12:42:59');
-INSERT INTO examination (id, title, questions, randomize_options, allow_view_answers, allow_backward, time_limit, type, user_id, create_time, update_time) VALUES (2, '测试提交试卷', '[1, 2, 3, 4]', 1, 1, 1, 119, 0, 1, '2024-06-21 12:43:27', '2024-06-21 12:43:27');
+INSERT INTO examination (id, title, questions, randomize_options, allow_view_answers, allow_backward, time_limit, type,
+                         user_id, create_time, update_time)
+VALUES (1, '测试随机生成', '[
+  2,
+  1,
+  3,
+  4,
+  5,
+  7,
+  12,
+  6,
+  9,
+  8
+]', 1, 1, 1, 120, 0, 1, '2024-06-21 12:42:59', '2024-06-21 12:42:59');
+INSERT INTO examination (id, title, questions, randomize_options, allow_view_answers, allow_backward, time_limit, type,
+                         user_id, create_time, update_time)
+VALUES (2, '测试提交试卷', '[
+  1,
+  2,
+  3,
+  4
+]', 1, 1, 1, 119, 0, 1, '2024-06-21 12:43:27', '2024-06-21 12:43:27');
 
-INSERT INTO exam_finish (id, examination_id, user_id, score, answer, result, create_time, update_time) VALUES (1, 2, 1, 5, '[["document.createElement()"], ["map"], ["True"], ["cs"]]', '[false, false, true, false]', '2024-06-21 12:43:50', '2024-06-21 12:43:50');
+INSERT INTO exam_finish (id, examination_id, user_id, score, answer, result, create_time, update_time)
+VALUES (1, 2, 1, 5, '[
+  [
+    "document.createElement()"
+  ],
+  [
+    "map"
+  ],
+  [
+    "True"
+  ],
+  [
+    "cs"
+  ]
+]', '[
+  false,
+  false,
+  true,
+  false
+]', '2024-06-21 12:43:50', '2024-06-21 12:43:50');
 
 
-INSERT INTO exercise (id, name, content, state, timestamp) VALUES (1, '测试实验', '<blockquote><span style="font-size: 22px; font-family: 标楷体;"><strong>测试实验 😀😃😇</strong></span></blockquote><p>红色 背景色 删除线 斜体 &nbsp;<a href="https://www.wangeditor.com/" target="_blank">链接</a> </p><ul><li>无序列表</li><li>无序列表</li></ul><p style="line-height: 1;"><br></p><ol><li>有序列表</li><li>有序列表</li></ol><p style="line-height: 1;"><br></p><div data-w-e-type="todo"><input type="checkbox" disabled checked>代办</div><div data-w-e-type="todo"><input type="checkbox" disabled >代办</div><p><img src="http://localhost:8100/upload/9c814a4c2c2a45faa1dcd01b664e57ac.png" alt="" data-href="" style=""/></p><table style="width: auto;"><tbody><tr><th colSpan="1" rowSpan="1" width="auto">1</th><th colSpan="1" rowSpan="1" width="auto">2</th><th colSpan="1" rowSpan="1" width="auto">3</th><th colSpan="1" rowSpan="1" width="auto">4</th><th colSpan="1" rowSpan="1" width="auto">5</th></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr></tbody></table><pre><code class="language-typescript">// 创建编辑器
+INSERT INTO exercise (id, name, content, state, timestamp)
+VALUES (1, '测试实验', '<blockquote><span style="font-size: 22px; font-family: 标楷体;"><strong>测试实验 😀😃😇</strong></span></blockquote><p>红色 背景色 删除线 斜体 &nbsp;<a href="https://www.wangeditor.com/" target="_blank">链接</a> </p><ul><li>无序列表</li><li>无序列表</li></ul><p style="line-height: 1;"><br></p><ol><li>有序列表</li><li>有序列表</li></ol><p style="line-height: 1;"><br></p><div data-w-e-type="todo"><input type="checkbox" disabled checked>代办</div><div data-w-e-type="todo"><input type="checkbox" disabled >代办</div><p><img src="http://localhost:8100/upload/9c814a4c2c2a45faa1dcd01b664e57ac.png" alt="" data-href="" style=""/></p><table style="width: auto;"><tbody><tr><th colSpan="1" rowSpan="1" width="auto">1</th><th colSpan="1" rowSpan="1" width="auto">2</th><th colSpan="1" rowSpan="1" width="auto">3</th><th colSpan="1" rowSpan="1" width="auto">4</th><th colSpan="1" rowSpan="1" width="auto">5</th></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr><tr><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td><td colSpan="1" rowSpan="1" width="auto"></td></tr></tbody></table><pre><code class="language-typescript">// 创建编辑器
 const editor = createEditor({
   selector: \'#editor-container\'
 })</code></pre><p><br></p>', 0, '2024-06-21 13:00:01');
 
 
-INSERT INTO exercise_finish (id, exercise_id, user_id, score, answer, result, create_time, update_time) VALUES (9, 1, 1, null, '<blockquote><strong>测试答题</strong></blockquote><pre><code class="language-typescript">import \'@wangeditor/editor/dist/css/style.css\'
+INSERT INTO exercise_finish (id, exercise_id, user_id, score, answer, result, create_time, update_time)
+VALUES (9, 1, 1, null, '<blockquote><strong>测试答题</strong></blockquote><pre><code class="language-typescript">import \'@wangeditor/editor/dist/css/style.css\'
 import { createEditor, createToolbar } from \'@wangeditor/editor\'
 
 // 创建编辑器

@@ -52,7 +52,7 @@ public class ExaminationVO implements Serializable {
     /**
      * True老师/False学生
      */
-    private Boolean type;
+    private Integer type;
 
     /**
      * 创建试卷的用户 ID
