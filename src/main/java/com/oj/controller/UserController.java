@@ -1,6 +1,7 @@
 package com.oj.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.oj.common.BaseResponse;
 import com.oj.common.ResultUtils;
 import com.oj.constant.JwtClaimsConstant;
@@ -67,6 +68,13 @@ public class UserController {
     @PostMapping("/logout")
     public BaseResponse<Boolean> userLogout() {
         return ResultUtils.success(true);
+    }
+
+    @GetMapping("/student")
+    public BaseResponse<List<User>> getStudent(){
+        QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("role","student");
+        return ResultUtils.success(userService.list(queryWrapper));
     }
 
     /**

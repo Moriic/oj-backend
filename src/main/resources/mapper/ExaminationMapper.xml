@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oj.mapper.ExaminationMapper">
+
+    <resultMap id="BaseResultMap" type="com.oj.model.entity.Examination">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="title" column="title" jdbcType="VARCHAR"/>
+            <result property="questions" column="questions" jdbcType="OTHER" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+            <result property="randomizeOptions" column="randomize_options" jdbcType="TINYINT"/>
+            <result property="allowViewAnswers" column="allow_view_answers" jdbcType="TINYINT"/>
+            <result property="allowBackward" column="allow_backward" jdbcType="TINYINT"/>
+            <result property="timeLimit" column="time_limit" jdbcType="INTEGER"/>
+            <result property="type" column="type" jdbcType="TINYINT"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,title,questions,
+        randomize_options,allow_view_answers,allow_backward,
+        time_limit,type,user_id,
+        create_time,update_time
+    </sql>
+</mapper>

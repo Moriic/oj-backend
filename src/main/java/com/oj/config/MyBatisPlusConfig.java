@@ -1,9 +1,14 @@
 package com.oj.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.extension.handlers.GsonTypeHandler;
+import com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,8 +18,12 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-@MapperScan("com.oj.springbootInit.mapper")
-public class MyBatisPlusConfig {
+public class MyBatisPlusConfig implements CommandLineRunner {
+    @Override
+    public void run(String... args) throws Exception {
+        JacksonTypeHandler.setObjectMapper(new ObjectMapper());
+        GsonTypeHandler.setGson(new Gson());
+    }
 
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {

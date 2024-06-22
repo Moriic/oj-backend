@@ -13,4 +13,17 @@
     <sql id="Base_Column_List">
         id,name,content
     </sql>
+    <select id="getSubmittedExerciseList" resultType="com.oj.model.entity.Exercise">
+        select e.*
+        from exercise_finish ef
+                 left join oj.exercise e on e.id = ef.exercise_id
+        where user_id = #{id}
+          and state = 1;
+    </select>
+    <select id="getNoSubmittedExerciseList" resultType="com.oj.model.entity.Exercise">
+        select *
+        from exercise
+        where id not in (select distinct exercise_id from exercise_finish where user_id = #{id})
+        and state = 1
+    </select>
 </mapper>

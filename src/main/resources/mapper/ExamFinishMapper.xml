@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oj.mapper.ExamFinishMapper">
+
+    <resultMap id="BaseResultMap" type="com.oj.model.entity.ExamFinish">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="examinationId" column="examination_id" jdbcType="BIGINT"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="answer" column="answer" jdbcType="OTHER"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+        <result property="result" column="result" jdbcType="OTHER"
+                typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,examination_id,user_id,
+        score,answer,create_time,update_time
+    </sql>
+</mapper>
