@@ -25,4 +25,16 @@ public class GlobalExceptionHandler {
         log.error("RuntimeException", e);
         return ResultUtils.error(ErrorCode.SYSTEM_ERROR, "系统错误");
     }
+
+    @ExceptionHandler(RegisterException.class)
+    public BaseResponse<?> registerExceptionHandler(RegisterException e){
+        log.error("RegisterException", e);
+        return ResultUtils.error(ErrorCode.SYSTEM_ERROR, e.getMessage());
+    }
+
+    @ExceptionHandler(ResetPasswordException.class)
+    public BaseResponse<?> passwordExceptionHandler(RegisterException e){
+        log.error("ResetPasswordException", e);
+        return ResultUtils.error(ErrorCode.SYSTEM_ERROR, e.getMessage());
+    }
 }

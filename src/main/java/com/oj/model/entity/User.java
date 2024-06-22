@@ -36,25 +36,24 @@ public class User implements Serializable {
      */
     private String name;
 
-
     /**
      * 头像
      */
     private String avatar;
-
-
 
     /**
      * 用户角色：doctor/admin
      */
     private String role;
 
+    private String signature;
+
+    private Integer blocked;
 
     /**
      * 是否删除
      */
-    @TableField("isDelete")
-    private Boolean isDelete;
+    private Integer isDelete;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
