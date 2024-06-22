@@ -17,7 +17,8 @@
         select e.*
         from exercise_finish ef
                  left join oj.exercise e on e.id = ef.exercise_id
-        where user_id = #{id};
+        where user_id = #{id}
+          and state = 1;
     </select>
     <select id="getNoSubmittedExerciseList" resultType="com.oj.model.entity.Exercise">
         select *
