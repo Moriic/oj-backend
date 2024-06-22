@@ -17,7 +17,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/oj?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: 20021114leo
+    password: 123456
 
 # mybatis-plus 配置
 mybatis-plus:
@@ -35,7 +35,7 @@ init:
     # 设置jwt签名加密时使用的秘钥
     user-secret-key: secretKey
     # 设置jwt过期时间
-    user-ttl: 7200000
+    user-ttl: 72000000000
     # 设置前端传递过来的令牌名称
     user-token-name: authentication
 

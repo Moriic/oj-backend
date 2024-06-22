@@ -50,11 +50,6 @@ public class User implements Serializable {
 
     private Integer blocked;
 
-    /**
-     * 是否删除
-     */
-    private Integer isDelete;
-
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }
