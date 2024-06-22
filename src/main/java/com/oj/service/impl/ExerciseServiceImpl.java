@@ -6,6 +6,7 @@ import com.oj.model.entity.Exercise;
 import com.oj.model.vo.SearchVO;
 import com.oj.service.ExerciseService;
 import com.oj.mapper.ExerciseMapper;
+import com.oj.utils.BaseContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,14 +30,16 @@ public class ExerciseServiceImpl extends ServiceImpl<ExerciseMapper, Exercise>
 
     @Override
     public List<Exercise> getSubmittedExerciseList() {
-        //todo
-        return exerciseMapper.getSubmittedExerciseList(1L);
+        Long currentId = BaseContext.getCurrentId();
+
+        return exerciseMapper.getSubmittedExerciseList(currentId);
     }
 
     @Override
     public List<Exercise> getNoSubmittedExerciseList() {
-        //todo
-        return exerciseMapper.getNoSubmittedExerciseList(1L);
+        Long currentId = BaseContext.getCurrentId();
+
+        return exerciseMapper.getNoSubmittedExerciseList(currentId);
     }
 
     @Override

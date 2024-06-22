@@ -15,7 +15,7 @@ public interface UserMapper extends BaseMapper<User> {
     @Select("select * from user where account = #{account}")
     User getUser(String account);
 
-    @Insert("insert into user(account, password, role, isDelete, blocked) values( #{account}, #{password}, 'student', 0, 0)")
+    @Insert("insert into user(account, password, role, is_delete, blocked) values( #{account}, #{password}, 'student', 0, 0)")
     boolean setUser(String account, String password);
 
     @Select("select config_value from system_config where config_key = 'register'")

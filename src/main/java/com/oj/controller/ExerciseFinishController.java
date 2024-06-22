@@ -27,19 +27,12 @@ public class ExerciseFinishController {
     @Resource
     private ExerciseFinishService exerciseFinishService;
 
-    @Value("${upload.path}")
-    private String uploadPath;
-
-    @Value("${upload.url}")
-    private String uploadUrl;
-
     //提交实验
     @PostMapping("/submit")
     public BaseResponse<Boolean> submitExercise(@RequestBody ExerciseSubmitDTO exerciseSubmitDTO) {
-        //todo
         ExerciseFinish exerciseFinish = ExerciseFinish.builder()
-//                .userId(BaseContext.getCurrentId())
-                .userId(1L)
+                .userId(BaseContext.getCurrentId())
+//                .userId(1L)
                 .exerciseId(exerciseSubmitDTO.getExerciseId())
                 .answer(exerciseSubmitDTO.getContent())
                 .createTime(LocalDateTime.now())
@@ -50,10 +43,10 @@ public class ExerciseFinishController {
     }
     //获取提交内容
     @GetMapping("/submit_content")
-    public BaseResponse<String> getSubmittedContent(Long exerciseId) {
+    public BaseResponse<String> getSubmittedContent(Long exerciseId,Long studentId) {
+        studentId = studentId==null?BaseContext.getCurrentId():studentId;
         QueryWrapper<ExerciseFinish> queryWrapper = new QueryWrapper<>();
-        //todo
-        queryWrapper.eq("user_id",1L)
+        queryWrapper.eq("user_id",studentId)
                 .eq("exercise_id",exerciseId);
         ExerciseFinish exerciseFinish = exerciseFinishService.getOne(queryWrapper);
 
