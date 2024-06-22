@@ -46,7 +46,7 @@ LOCK TABLES `user` WRITE;
 INSERT INTO `user`
 VALUES (1, '123456', 'e10adc3949ba59abbe56e057f20f883e', '邵致乐', NULL, 'student', NULL, '啊啊啊', NULL),
        (2, '2021020108', '0453fdd31d24e8f4716ea9e79ac80aae', '陈伟朝', NULL, 'student', '0', NULL, NULL),
-       (3, 'teacher', '0453fdd31d24e8f4716ea9e79ac80aae', '教师', NULL, 'teacher', '0', NULL, NULL);
+       (3, '2021020107', '0453fdd31d24e8f4716ea9e79ac80aae', '教师', NULL, 'teacher', '0', NULL, NULL);
 /*!40000 ALTER TABLE `user`
     ENABLE KEYS */;
 UNLOCK TABLES;
