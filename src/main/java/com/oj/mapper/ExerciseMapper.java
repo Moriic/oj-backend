@@ -2,6 +2,7 @@ package com.oj.mapper;
 
 import com.oj.model.entity.Exercise;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.oj.model.vo.SearchVO;
 
 import java.util.List;
 
@@ -24,6 +25,8 @@ public interface ExerciseMapper extends BaseMapper<Exercise> {
      * @return
      */
     List<Exercise> getNoSubmittedExerciseList(Long id);
+
+    List<SearchVO> search(String searchStr);
 }
 
 

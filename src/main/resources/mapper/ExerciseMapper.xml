@@ -26,4 +26,12 @@
         where id not in (select distinct exercise_id from exercise_finish where user_id = #{id})
         and state = 1
     </select>
+    <select id="search" resultType="com.oj.model.vo.SearchVO">
+        SELECT name as title,
+               CASE
+                   WHEN LOCATE(#{searchStr}, content) > 0 THEN SUBSTRING(content, LOCATE(#{searchStr}, content), 10)
+                   END AS content
+        FROM exercise
+        WHERE name LIKE #{searchStr} OR LOCATE(#{searchStr}, content) > 0;
+    </select>
 </mapper>

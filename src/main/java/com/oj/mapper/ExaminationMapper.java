@@ -2,6 +2,9 @@ package com.oj.mapper;
 
 import com.oj.model.entity.Examination;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.oj.model.vo.SearchVO;
+
+import java.util.List;
 
 /**
 * @author cwc
@@ -11,6 +14,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface ExaminationMapper extends BaseMapper<Examination> {
 
+    List<SearchVO> search(String searchStr);
 }
 
 

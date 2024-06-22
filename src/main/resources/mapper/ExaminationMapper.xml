@@ -24,4 +24,12 @@
         time_limit,type,user_id,
         create_time,update_time
     </sql>
+    <select id="search" resultType="com.oj.model.vo.SearchVO">
+        SELECT question as title,
+               CASE
+                   WHEN LOCATE(#{searchStr}, options) > 0 THEN SUBSTRING(options, LOCATE(#{searchStr}, options), 10)
+                   END AS content
+        FROM question
+        WHERE question LIKE #{searchStr} OR LOCATE(#{searchStr}, options) > 0;
+    </select>
 </mapper>

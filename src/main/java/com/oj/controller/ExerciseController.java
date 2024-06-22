@@ -137,4 +137,11 @@ public class ExerciseController {
     public BaseResponse<List<Exercise>> getNoSubmittedExerciseListByStuId(Long stuId) {
         return ResultUtils.success(exerciseService.getNoSubmittedExerciseList(stuId));
     }
+
+
+    //站内搜索
+    @GetMapping("/search")
+    public BaseResponse<List<SearchVO>> search(String searchStr) {
+        return ResultUtils.success(exerciseService.search(searchStr));
+    }
 }
