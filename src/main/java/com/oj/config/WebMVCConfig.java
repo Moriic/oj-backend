@@ -28,6 +28,10 @@ public class WebMVCConfig  extends WebMvcConfigurationSupport {
                 .addPathPatterns("/question/**")
                 .addPathPatterns("/examination/**")
                 .addPathPatterns("/exam_finish/**")
+                .addPathPatterns("/exercise_finish/**")
+                .addPathPatterns("/exercise/**")
+                .excludePathPatterns("/exercise/uploadImage")
+                .excludePathPatterns("/exercise/uploadVideo")
                 .excludePathPatterns("/user/login");
     }
 
