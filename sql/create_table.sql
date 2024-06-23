@@ -9,22 +9,125 @@ DROP TABLE IF EXISTS exam_finish;
 DROP TABLE IF EXISTS examination;
 DROP TABLE IF EXISTS exercise;
 DROP TABLE IF EXISTS question;
+DROP TABLE IF EXISTS `todolist`;
+DROP TABLE IF EXISTS `system_config`;
 DROP TABLE IF EXISTS `user`;
 
+--
+-- Table structure for table `system_config`
+--
+
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user`
 (
-    `id`       BIGINT NOT NULL AUTO_INCREMENT,
-    `account`  varchar(256) DEFAULT NULL,
-    `password` varchar(256) DEFAULT NULL,
-    `name`     varchar(256) DEFAULT NULL,
-    `avatar`   varchar(256) DEFAULT NULL,
-    `role`     varchar(256) DEFAULT NULL,
-    `isDelete` varchar(256) DEFAULT NULL,
+    `id`        bigint NOT NULL AUTO_INCREMENT,
+    `account`   varchar(256) DEFAULT NULL,
+    `password`  varchar(256) DEFAULT NULL,
+    `name`      varchar(256) DEFAULT NULL,
+    `avatar`    varchar(256) DEFAULT NULL,
+    `role`      varchar(256) DEFAULT NULL,
+    `isDelete`  varchar(256) DEFAULT NULL,
+    `signature` varchar(256) DEFAULT NULL,
+    `blocked`   int          DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 13
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user`
+    DISABLE KEYS */;
+INSERT INTO `user`
+VALUES (1, '123456', 'e10adc3949ba59abbe56e057f20f883e', '邵致乐', NULL, 'student', NULL, '啊啊啊', NULL),
+       (2, '2021020108', '0453fdd31d24e8f4716ea9e79ac80aae', '陈伟朝', NULL, 'student', '0', NULL, NULL),
+       (3, '2021020107', '0453fdd31d24e8f4716ea9e79ac80aae', '教师', NULL, 'teacher', '0', NULL, NULL);
+/*!40000 ALTER TABLE `user`
+    ENABLE KEYS */;
+UNLOCK TABLES;
+
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `system_config`
+(
+    `id`           int          NOT NULL AUTO_INCREMENT,
+    `config_key`   varchar(255) NOT NULL,
+    `config_value` varchar(255) NOT NULL,
+    `description`  varchar(255) DEFAULT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 2
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `system_config`
+--
+
+LOCK TABLES `system_config` WRITE;
+/*!40000 ALTER TABLE `system_config`
+    DISABLE KEYS */;
+INSERT INTO `system_config`
+VALUES (1, 'register', '1', NULL);
+/*!40000 ALTER TABLE `system_config`
+    ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `todolist`
+--
+
+/*!40101 SET @saved_cs_client = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `todolist`
+(
+    `id`      bigint NOT NULL AUTO_INCREMENT,
+    `task`    varchar(256) DEFAULT NULL,
+    `user_id` bigint       DEFAULT NULL,
+    PRIMARY KEY (`id`),
+    KEY `user_id` (`user_id`),
+    CONSTRAINT `todolist_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 15
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `todolist`
+--
+
+LOCK TABLES `todolist` WRITE;
+/*!40000 ALTER TABLE `todolist`
+    DISABLE KEYS */;
+INSERT INTO `todolist`
+VALUES (1, '啊啊啊', 1),
+       (2, '24333', 1),
+       (3, '24333', 1),
+       (4, '啊啊啊', 1),
+       (5, '', 1),
+       (6, '啊啊', 1),
+       (7, '啊啊', 1),
+       (8, '啊啊啊啊', 1),
+       (9, '啊啊啊啊', 1),
+       (10, '啊啊啊', 1),
+       (11, '啊啊', 1),
+       (12, '啊', 1),
+       (13, '啊', 1),
+       (14, '啊', 1);
+/*!40000 ALTER TABLE `todolist`
+    ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
 
 
 create table exercise
@@ -65,7 +168,7 @@ CREATE TABLE examination
     user_id            BIGINT       NOT NULL COMMENT '创建试卷的用户 ID',
     create_time        datetime              default CURRENT_TIMESTAMP not null comment '创建时间',
     update_time        datetime              default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
-    is_delete   BOOLEAN  DEFAULT 0
+    is_delete          BOOLEAN               DEFAULT 0
 ) COMMENT '试卷表';
 
 CREATE TABLE exam_finish
@@ -101,17 +204,6 @@ CREATE TABLE `exercise_finish`
   DEFAULT CHARSET = utf8 COMMENT ='实验完成表';
 
 
-INSERT INTO `user`
-VALUES (1, '123456', 'e10adc3949ba59abbe56e057f20f883e', NULL, NULL, 'student', NULL),
-       (3, '1234567890', '1234567890', NULL, NULL, 'student', '0'),
-       (6, '1234567891', '111', NULL, NULL, 'student', '0'),
-       (7, '1234567892', '111', NULL, NULL, 'student', '0'),
-       (8, '2021150110', '11111', NULL, NULL, 'student', '0'),
-       (9, '1111111111', '1111111111', NULL, NULL, 'student', '0'),
-       (10, '1111111112', '111', NULL, NULL, 'student', '0'),
-       (11, '1111333333', '111', NULL, NULL, 'student', '0'),
-       (12, '1113333333', '333', NULL, NULL, 'student', '0');
-UNLOCK TABLES;
 
 INSERT INTO question (type, question, options, answer, user_id)
 VALUES (0, '以下哪种方法可以用于选择 HTML 元素？', '[

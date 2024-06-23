@@ -7,11 +7,14 @@ import com.oj.common.ResultUtils;
 import com.oj.model.entity.ExamFinish;
 import com.oj.model.entity.Examination;
 import com.oj.model.entity.Question;
+import com.oj.model.entity.User;
+import com.oj.model.vo.ExamDetailVO;
 import com.oj.model.vo.ExamFinishVO;
 import com.oj.model.vo.ExaminationVO;
 import com.oj.service.ExamFinishService;
 import com.oj.service.ExaminationService;
 import com.oj.service.QuestionService;
+import com.oj.service.UserService;
 import com.oj.utils.BaseContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -34,6 +37,9 @@ public class ExamFinishController {
 
     @Resource
     private ExaminationService examinationService;
+
+    @Resource
+    private UserService userService;
 
     @PostMapping
     public BaseResponse<Long> examFinish(@RequestBody ExamFinish examFinish) {
@@ -121,5 +127,31 @@ public class ExamFinishController {
             examFinishVOList.add(examFinishVO);
         }
         return ResultUtils.success(examFinishVOList);
+    }
+
+
+    @GetMapping("/studentDetail/{id}")
+    public BaseResponse<List<ExamDetailVO>> getExamDetail(@PathVariable Long id){
+        QueryWrapper<ExamFinish> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(ExamFinish::getExaminationId, id);
+        List<ExamFinish> examFinishs = examFinishService.list(queryWrapper);
+
+        List<ExamDetailVO> examDetailVOList = new ArrayList<>();
+        for (ExamFinish examFinish : examFinishs) {
+            ExamDetailVO examDetailVO = new ExamDetailVO();
+
+            Long userId = examFinish.getUserId();
+            User user = userService.getById(userId);
+            Examination examination = examinationService.getById(id);
+
+            examDetailVO.setTitle(examination.getTitle());
+            examDetailVO.setAccount(user.getAccount());
+            examDetailVO.setName(user.getName());
+            examDetailVO.setScore(examFinish.getScore());
+
+            examDetailVOList.add(examDetailVO);
+        }
+
+        return ResultUtils.success(examDetailVOList);
     }
 }
